@@ -21,9 +21,20 @@ class Database():
         self.cursor.execute(queries['del_usuario'], (val,))
         self.conexion.commit()
 
+    def add_posteo(self, MENSAJE):
+        val=MENSAJE
+        self.cursor.execute(queries['add_posteo'], (val,))
+        self.conexion.commit()
+
+    def consultar_id(self, EMAIL):
+        val=EMAIL
+        self.cursor.execute(queries['consultar_id'], (val,))
+        return self.cursor.fetchall()
+
+
     def list_posteo_usuario(self, ID_USUARIO):
-        val=(ID_USUARIO,)
-        self.cursor.execute(queries['list_posteo_usuario'], val)
+        val=(ID_USUARIO)
+        self.cursor.execute(queries['list_posteo_usuario'], (val,))
         reporte = self.cursor.fetchall()
         for i in reporte:
             print(i[1])
@@ -41,36 +52,17 @@ class Database():
         for i in reporte:
             print(i[1])
 
+    def agregar_amigo(self, usuario, EMAIL):
+        user=self.consultar_id(usuario.get_email())
+        amigo=self.consultar_id(EMAIL)
+        val=(user[0][0],amigo[0][0])
+        self.cursor.execute(queries['add_amigo'],val)
+        self.conexion.commit()
+        
+
      
     def login (self, EMAIL, CLAVE):
         val=(EMAIL, CLAVE)
         self.cursor.execute(queries['loguearse'], val)
         reporte = self.cursor.fetchall()
-        print(reporte)
-        if reporte==[]:
-            print("Alguno de los valores son incorrectos!")
-        else:
-            print(f"Bienvenido {reporte[0][1]} {reporte[0][2]}, a la red social Punk!")
-            usuario=Usuario(reporte[0][1], reporte[0][2], reporte[0][3], reporte[0][4], reporte[0][5], reporte[0][6], reporte[0][7], reporte[0][8])
-            # print(usuario())    
-            # menu2()
-    
-    # def menu2(self):
-    #     x=input("1.Postear"/n "2.Eliminar post"/n "3.Listar Amigos"/n "Salir"/n)
-    #     if x==1:
-    #         mensaje=input("Ingrese posteo: ")
-    #         id_usuario
-    #         print(mensaje, id_usuario, id_categoria)
-    #         Usuario.set_posteo()
-
-
-
-    # def crear_hospital(self, hospital):
-    #     val=(hospital.GetCodigo(),hospital.GetNombre(),hospital.GetDireccion(),hospital.GetTelefono(),hospital.GetNumCama())
-    #     self.cursor.execute(queries['add_hosp'],val)
-    #     self.conexion.commit()
-
-    # def eliminar_usuario(self, usuario):
-    #     val=usuario.GetCodigo()
-    #     self.cursor.execute(queries['del_hosp_id'], (val,))
-    #     self.conexion.commit()
+        return reporte

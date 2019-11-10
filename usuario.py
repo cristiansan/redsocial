@@ -59,21 +59,5 @@ class Usuario():
         self.posteo.append(posteo)
     def set_amistad(self, amistad): #está agregando amistades
         self.amistad.append(amistad)
-
-# mydb=mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="",
-#     database="red_social"
-# )
-# print(mydb)
-# mycursor = mydb.cursor()
-
-# mycursor.execute("SELECT * FROM usuario")
-# myresult = mycursor.fetchall()
-
-# for x in myresult:
-#     print(x)
-
-# print(myresult)
+    
 
