@@ -7,17 +7,26 @@ def menu_usuario(usuario):
     opcion=input("1.Agregar amigo 2.Postear 3.Borrar post")
     if opcion=="1":
         amigo=input("Indica el email de tu amigo: ")
-        db.agregar_amigo(usuario, amigo)
-    # elif opcion=="2":
-    #     postear=input("Post: ")
-    #     db.add_posteo(MENSAJE)
-    # else opcion=="3":
-    #     borrar_post=input("ID post a borrar: ")
-    #     db.borrar_post(ID_POSTEO)
+        db.agregar_amigo(usuario, amigo) # falta poner mensaje si existe o no.
+    elif opcion=="2":
+        categorias=db.mostrar_categoria()
+        for i in categorias:
+            print(i)
+        cat=input("Indique categoría: ")
+        id=db.consultar_id(usuario.get_email())
+        print(id[0][0])
+        post=input("Ingrese posteo: ")
+        db.add_posteo(post, id[0][0], cat)
+    else:
+        borrar_post=input("ID post a borrar: ")
+        # print(ID_POSTEO)
+        # db.del_posteo(ID_POSTEO)
+        # print(borrar_post)
+        db.del_posteo(borrar_post)
 
 if __name__ == "__main__":
     print("Elije Opcion Deseada: ")
-    valor=input("1.Loguearse 2.Registrarse 3.Borrar Usuario: ")
+    valor=input("1.Loguearse 2.Registrarse")
     db=Database()
     if valor=="1":
         u=input("Usuario: ")
@@ -43,9 +52,9 @@ if __name__ == "__main__":
         db.crear_usuario(usuario)
         
     
-    elif valor=="3":
-        e=input("Email a eliminar: ")
-        db.del_usuario(e)
+    # elif valor=="3":
+    #     e=input("Email a eliminar: ")
+    #     db.del_usuario(e)
 
     else:
         print("no existe valor")

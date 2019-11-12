@@ -14,6 +14,11 @@ class Database():
         self.cursor.execute(queries['add_usuario'],val)
         self.conexion.commit()
 #este es el nuestro
+    def mostrar_categoria(self):
+        self.cursor.execute(queries['mostrar_categoria'])
+        # self.conexion.commit()
+        return self.cursor.fetchall()
+        
 
     def del_usuario(self, EMAIL):
         val=EMAIL
@@ -21,16 +26,22 @@ class Database():
         self.cursor.execute(queries['del_usuario'], (val,))
         self.conexion.commit()
 
-    def add_posteo(self, MENSAJE):
-        val=MENSAJE
-        self.cursor.execute(queries['add_posteo'], (val,))
+    def del_posteo(self, ID_POSTEO):
+        # val=ID_POSTEO
+        # self.cursor.execute(queries['del_posteo'], (val,))
+        val=ID_POSTEO
+        self.cursor.execute(queries['del_posteo'], (val,))
+        self.conexion.commit()
+
+    def add_posteo(self, MENSAJE, ID_USUARIO, ID_CATEGORIA):
+        val=(MENSAJE, ID_USUARIO, ID_CATEGORIA)
+        self.cursor.execute(queries['add_posteo'], val)
         self.conexion.commit()
 
     def consultar_id(self, EMAIL):
         val=EMAIL
         self.cursor.execute(queries['consultar_id'], (val,))
         return self.cursor.fetchall()
-
 
     def list_posteo_usuario(self, ID_USUARIO):
         val=(ID_USUARIO)
@@ -45,7 +56,6 @@ class Database():
         reporte = self.cursor.fetchall()
         self.conexion.commit()
 
-
     def list_posteos(self):
         self.cursor.execute(queries['list_posteos'])
         reporte = self.cursor.fetchall()
@@ -58,9 +68,7 @@ class Database():
         val=(user[0][0],amigo[0][0])
         self.cursor.execute(queries['add_amigo'],val)
         self.conexion.commit()
-        
-
-     
+             
     def login (self, EMAIL, CLAVE):
         val=(EMAIL, CLAVE)
         self.cursor.execute(queries['loguearse'], val)
