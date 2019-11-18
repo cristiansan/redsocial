@@ -16,6 +16,7 @@ queries = {
     'consultar_id':'select ID from USUARIO where EMAIL = %s',
     'del_usuario':'DELETE FROM usuario WHERE EMAIL = %s',
     'add_amigo':'INSERT INTO amistad (ID_USUARIO1, ID_USUARIO2) VALUES (%s, %s)',
+    'validar_amigo':'SELECT ID from USUARIO WHERE EMAIL =%s',
     # 'list_posteo':'SELECT * FROM %s',
     'list_posteo_usuario':'SELECT * FROM posteo WHERE ID_USUARIO=%s',
     'mod_posteo_usuario':'UPDATE posteo set MENSAJE = %s where ID_POSTEO = %s',

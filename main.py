@@ -1,13 +1,19 @@
 from dba import Database, Usuario
+import os
+
 usuarioglobal=None
 db=Database()
-
+os.system('cls')
 def menu_usuario(usuario):
     print(usuario.get_email())#esto es una prueba para mostrar email
-    opcion=input("1.Agregar amigo 2.Postear 3.Borrar post")
+    opcion=input("1.Agregar amigo\n 2.Postear\n 3.Borrar post\n 4.Eliminar Amigo\n")
     if opcion=="1":
         amigo=input("Indica el email de tu amigo: ")
-        db.agregar_amigo(usuario, amigo) # falta poner mensaje si existe o no.
+        if db.validar_amigo(amigo) == []:
+        	print("Usuario no existe")
+        else:
+            db.agregar_amigo(usuario, amigo)
+         # falta poner mensaje si existe o no.
     elif opcion=="2":
         categorias=db.mostrar_categoria()
         for i in categorias:
@@ -17,6 +23,14 @@ def menu_usuario(usuario):
         print(id[0][0])
         post=input("Ingrese posteo: ")
         db.add_posteo(post, id[0][0], cat)
+    elif opcion=="4":
+    	amigo=input("Indica el email de tu amigo: ")
+        if db.validar_amigo(amigo) == []:
+        	print("Usuario no existe")
+        else:
+            db.eliminar_amigo(usuario, amigo)
+        
+
     else:
         borrar_post=input("ID post a borrar: ")
         # print(ID_POSTEO)
@@ -26,7 +40,7 @@ def menu_usuario(usuario):
 
 if __name__ == "__main__":
     print("Elije Opcion Deseada: ")
-    valor=input("1.Loguearse 2.Registrarse")
+    valor=input("1.Loguearse 2.Registrarse\n")
     db=Database()
     if valor=="1":
         u=input("Usuario: ")

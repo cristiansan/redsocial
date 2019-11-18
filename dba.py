@@ -18,7 +18,6 @@ class Database():
         self.cursor.execute(queries['mostrar_categoria'])
         # self.conexion.commit()
         return self.cursor.fetchall()
-        
 
     def del_usuario(self, EMAIL):
         val=EMAIL
@@ -41,6 +40,11 @@ class Database():
     def consultar_id(self, EMAIL):
         val=EMAIL
         self.cursor.execute(queries['consultar_id'], (val,))
+        return self.cursor.fetchall()
+
+    def validar_amigo(self, EMAIL):
+        val=EMAIL
+        self.cursor.execute(queries['validar_amigo'], (val,))
         return self.cursor.fetchall()
 
     def list_posteo_usuario(self, ID_USUARIO):
@@ -74,3 +78,4 @@ class Database():
         self.cursor.execute(queries['loguearse'], val)
         reporte = self.cursor.fetchall()
         return reporte
+
