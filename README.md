@@ -14,7 +14,7 @@ Base de datos mysql:
 Código usando lo aprendido en OOP
  - Conectamos algunas clases y realizamos llamadas a la DB
  
-Integracion Flas
+Integracion Flask
  - Para mostrar el menú usaremos una página donde se pide login, registración y las diferentes opciones para el cliente.
   
 Equipo: Cristian/Anthony
