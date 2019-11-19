@@ -6,7 +6,7 @@ db=Database()
 os.system('cls')
 def menu_usuario(usuario):
     print(usuario.get_email())#esto es una prueba para mostrar email
-    opcion=input("1.Agregar amigo\n 2.Postear\n 3.Borrar post\n 4.Eliminar Amigo\n")
+    opcion=input("1.Agregar amigo\n2.Eliminar Amigo\n3.Postear\n4.Borrar post\n ")
     if opcion=="1":
         amigo=input("Indica el email de tu amigo: ")
         if db.validar_amigo(amigo) == []:
@@ -14,7 +14,15 @@ def menu_usuario(usuario):
         else:
             db.agregar_amigo(usuario, amigo)
          # falta poner mensaje si existe o no.
+    
     elif opcion=="2":
+        amigo=input("Indica el email de tu amigo: ")
+        if db.validar_amigo(amigo) == []:
+        	print("Usuario no existe")
+        else:
+            db.eliminar_amigo(usuario, amigo)
+
+    elif opcion=="3":
         categorias=db.mostrar_categoria()
         for i in categorias:
             print(i)
@@ -22,14 +30,7 @@ def menu_usuario(usuario):
         id=db.consultar_id(usuario.get_email())
         print(id[0][0])
         post=input("Ingrese posteo: ")
-        db.add_posteo(post, id[0][0], cat)
-    elif opcion=="4":
-    	amigo=input("Indica el email de tu amigo: ")
-        if db.validar_amigo(amigo) == []:
-        	print("Usuario no existe")
-        else:
-            db.eliminar_amigo(usuario, amigo)
-        
+        db.add_posteo(post, id[0][0], cat) 
 
     else:
         borrar_post=input("ID post a borrar: ")

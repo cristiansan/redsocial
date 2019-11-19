@@ -73,6 +73,13 @@ class Database():
         self.cursor.execute(queries['add_amigo'],val)
         self.conexion.commit()
              
+    def eliminar_amigo(self, usuario, EMAIL):
+        user=self.consultar_id(usuario.get_email())
+        amigo=self.consultar_id(EMAIL)
+        val=(user[0][0],amigo[0][0])
+        self.cursor.execute(queries['del_amigo'],val)
+        self.conexion.commit()
+
     def login (self, EMAIL, CLAVE):
         val=(EMAIL, CLAVE)
         self.cursor.execute(queries['loguearse'], val)
