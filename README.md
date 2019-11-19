@@ -1,6 +1,7 @@
 # Red Social
 
 Trabajo práctico para curso de python:
+
 Base de datos mysql:
  - amistad
  - categoria
@@ -9,8 +10,10 @@ Base de datos mysql:
  - posteo
  - provincia
  - usuario
+ 
 Código usando lo aprendido en OOP
  - Conectamos algunas clases y realizamos llamadas a la DB
+ 
 Integracion Flas
  - Para mostrar el menú usaremos una página donde se pide login, registración y las diferentes opciones para el cliente.
   
