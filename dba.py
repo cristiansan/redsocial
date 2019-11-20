@@ -1,3 +1,5 @@
+#updated
+
 import mysql.connector
 from db import dbconf, queries
 from usuario import Usuario

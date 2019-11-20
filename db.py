@@ -1,3 +1,5 @@
+#updated
+
 dbconf = {
     'host':'localhost',
     'database':'red_social',
@@ -14,7 +16,7 @@ queries = {
     'mostrar_categoria':'SELECT * FROM categoria',
     'consultar_id':'select ID FROM USUARIO where EMAIL = %s',
     'add_amigo':'INSERT INTO amistad (ID_USUARIO1, ID_USUARIO2) VALUES (%s, %s)',
-    'del_amigo':'DELETE FROM amistad WHERE (ID_USUARIO1, ID_USUARIO2) = (%s, %s)', #esta sintaxis no está funcionando, REVISAR!!
+    'del_amigo':'DELETE FROM amistad WHERE (ID_USUARIO1, ID_USUARIO2) = (%s, %s)',
     'validar_amigo':'SELECT ID FROM USUARIO WHERE EMAIL =%s',
     'list_posteo_usuario':'SELECT * FROM posteo WHERE ID_USUARIO=%s',
     'mod_posteo_usuario':'UPDATE posteo set MENSAJE = %s where ID_POSTEO = %s',
