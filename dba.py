@@ -15,21 +15,17 @@ class Database():
         val=(usuario.get_nombre(),usuario.get_apellido(),usuario.get_clave(),usuario.get_email(), usuario.get_ciudad(), usuario.get_edad(), usuario.get_sexo(), usuario.get_fecha_nac())
         self.cursor.execute(queries['add_usuario'],val)
         self.conexion.commit()
-#este es el nuestro
+
     def mostrar_categoria(self):
         self.cursor.execute(queries['mostrar_categoria'])
-        # self.conexion.commit()
         return self.cursor.fetchall()
 
     def del_usuario(self, EMAIL):
         val=EMAIL
-        # val=usuario.get_id()
         self.cursor.execute(queries['del_usuario'], (val,))
         self.conexion.commit()
 
     def del_posteo(self, ID_POSTEO):
-        # val=ID_POSTEO
-        # self.cursor.execute(queries['del_posteo'], (val,))
         val=ID_POSTEO
         self.cursor.execute(queries['del_posteo'], (val,))
         self.conexion.commit()
@@ -87,4 +83,10 @@ class Database():
         self.cursor.execute(queries['loguearse'], val)
         reporte = self.cursor.fetchall()
         return reporte
+
+    def list_posteo_categoria (self, categoria):
+        val=(categoria)
+        self.cursor.execute(queries['list_posteo_categoria'], (val,))
+        post_cat = self.cursor.fetchall()
+        return post_cat
 
