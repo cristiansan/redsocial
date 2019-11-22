@@ -66,10 +66,12 @@ def menu_usuario(usuario):
         amigo=input("Indica el email de tu amigo: ")
         if db.validar_amigo(amigo) == []:
         	print("Usuario no existe")
+            # menu_usuario(usuario)
         else:
             db.agregar_amigo(usuario, amigo)
+            print("Amigo agregado!! :)")
          # falta poner mensaje si existe o no.
-            menu_usuario(usuario)
+        menu_usuario(usuario)
     
     elif opcion==6:
         amigo=input("Indica el email de tu amigo: ")
