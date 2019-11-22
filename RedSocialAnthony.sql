@@ -1,1 +1,2 @@
-delete from posteo where ID_POSTEO = 23
+SELECT MENSAJE FROM posteo where ID_CATEGORIA = 1
+
