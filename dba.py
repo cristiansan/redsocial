@@ -44,6 +44,11 @@ class Database():
         val=EMAIL
         self.cursor.execute(queries['validar_amigo'], (val,))
         return self.cursor.fetchall()
+    
+    def validar_email(self, EMAIL): #valida email al registrarse
+        val=EMAIL
+        self.cursor.execute(queries['validar_email'], (val,))
+        return self.cursor.fetchall()
 
     def list_posteo_usuario(self, ID_USUARIO):
         val=(ID_USUARIO)
@@ -70,6 +75,18 @@ class Database():
         val=(user[0][0],amigo[0][0])
         self.cursor.execute(queries['add_amigo'],val)
         self.conexion.commit()
+    
+    def ver_amigos(self, ID):
+        id=(ID)
+        self.cursor.execute(queries['ver_amigos'], (id,))
+        amigos = self.cursor.fetchall()
+        return amigos
+    
+    def mostrar_amigos(self, ID):
+        id=(ID)
+        self.cursor.execute(queries['mostrar_amigos'], (id,))
+        amigos = self.cursor.fetchall()
+        return amigos   
              
     def eliminar_amigo(self, usuario, EMAIL):
         user=self.consultar_id(usuario.get_email())
