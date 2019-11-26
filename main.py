@@ -12,7 +12,7 @@ def menu_usuario(usuario):
     # os.system('cls')
     # print:("\nMenu:\n")
     
-    opcion=input("\nMenu:\n=====\n 1. Ver Post\n 2. Agregar un nuevo Post\n 3. Borrar Post\n 4. Ver Amigos\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
+    opcion=input("\nMenu:\n=====\n 1. Ver todos los Post\n 2. Agregar un nuevo Post\n 3. Borrar Post\n 4. Ver Amigos\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
     os.system('cls')                    #Pedido de Anthony para poner
     if opcion=="1":
         categorias=db.mostrar_categoria()
@@ -35,11 +35,9 @@ def menu_usuario(usuario):
     elif opcion=="2":
         categorias=db.mostrar_categoria()
         for i in categorias:
-            # print(i)
             print(f"{i[0]}. {i[1]}")    #Pedido de Anthony para poner        
         cat=input("Indique categoría: ")
         id=db.consultar_id(usuario.get_email())
-        print(id[0][0])
         post=input("Ingrese posteo: ")
         db.add_posteo(post, id[0][0], cat)
         print("Posteo agregado!")
@@ -48,12 +46,19 @@ def menu_usuario(usuario):
         menu_usuario(usuario)
 
     elif opcion=="3":
-        borrar_post=input("ID post a borrar: ")
-        # print(ID_POSTEO)
-        # db.del_posteo(ID_POSTEO)
-        # print(borrar_post)
-        db.del_posteo(borrar_post)
+        categorias=db.mostrar_categoria()
+        for i in categorias:
+            print(f"{i[0]}. {i[1]}") 
+        cat=input("Indique categoría: ")
+        id=db.consultar_id(usuario.get_email())
+        posteos=db.list_posteos_propios(cat, id[0][0])
+        for i in posteos:
+            print(f"{i[0]}. {i[1]}")
+        #hasta acá viene de DBA, trae categoria y idusuario
+        borrar_post=input("\nID post a borrar: ")
+        db.del_posteo(borrar_post, id[0][0])
         print("Post Eliminado")
+        input("\nPresione Enter para continuar...")
         menu_usuario(usuario)
 
     elif opcion =="4":
@@ -68,7 +73,7 @@ def menu_usuario(usuario):
             print(mostrar[0][0], mostrar[0][1])
         input("\nPresione Enter para continuar...")
         menu_usuario(usuario)
-      
+    
     elif opcion=="5":
         amigo=input("Indica el email de tu amigo: ")
         if db.validar_amigo(amigo) == []:
@@ -77,6 +82,15 @@ def menu_usuario(usuario):
             db.agregar_amigo(usuario, amigo)
             print("Amigo agregado!! :)")
         menu_usuario(usuario)
+      
+    # elif opcion=="5":
+    #     amigo=input("Indica el email de tu amigo: ")
+    #     if db.validar_amigo(amigo) == []:
+    #     	print("Usuario no existe")
+    #     else:
+    #         db.agregar_amigo(usuario, amigo)
+    #         print("Amigo agregado!! :)")
+    #     menu_usuario(usuario)
     
     elif opcion=="6":
         amigo=input("Indica el email de tu amigo: ")
@@ -96,6 +110,7 @@ def menu_login():
     valor=input("1.Loguearse\n2.Registrarse\n")
     db=Database()
     if valor=="1":
+        print("Ingrese su usuario (email) para loguearse:")
         u=input("Usuario: ")
         c=input("Clave: ")
         usuarioglobal=db.login(u, c)
@@ -112,8 +127,9 @@ def menu_login():
             menu_login()
                     
     elif valor=="2":
-        # ii=input("id: ")
-        e=input("eMail: ")
+        print("\nIngrese los siguientes datos:")
+        print("============================")
+        e=input("E-mail: ")
         if db.validar_email(e) ==[]:
             a=input("Nombre: ")
             b=input("Apellido: ")

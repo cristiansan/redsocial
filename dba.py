@@ -25,9 +25,9 @@ class Database():
         self.cursor.execute(queries['del_usuario'], (val,))
         self.conexion.commit()
 
-    def del_posteo(self, ID_POSTEO):
-        val=ID_POSTEO
-        self.cursor.execute(queries['del_posteo'], (val,))
+    def del_posteo(self, ID_POSTEO, ID_USUARIO):
+        val=ID_POSTEO, ID_USUARIO #revisar si faltan parentesis ()
+        self.cursor.execute(queries['del_posteo'], val)
         self.conexion.commit()
 
     def add_posteo(self, MENSAJE, ID_USUARIO, ID_CATEGORIA):
@@ -56,11 +56,25 @@ class Database():
         reporte = self.cursor.fetchall()
         for i in reporte:
             print(i[1])
+    
+    #original!!!
+    # def list_posteos_propios(self, ID_CATEGORIA, ID_USUARIO):
+    #     val=(ID_CATEGORIA, ID_USUARIO)
+    #     self.cursor.execute(queries['list_posteos_propios'], val)
+    #     reporte = self.cursor.fetchall()
+    #     for i in reporte:
+    #         print(f"{i[0]}. {i[1]}")
+
+    def list_posteos_propios(self, ID_CATEGORIA, ID_USUARIO):
+        val=(ID_CATEGORIA, ID_USUARIO)
+        self.cursor.execute(queries['list_posteos_propios'], val)
+        reporte = self.cursor.fetchall()
+        return reporte
 
     def mod_posteo_usuario(self, MENSAJE, ID_POSTEO):
         val=(MENSAJE, ID_POSTEO)
         self.cursor.execute(queries['mod_posteo_usuario'], val)
-        reporte = self.cursor.fetchall()
+        # reporte = self.cursor.fetchall()
         self.conexion.commit()
 
     def list_posteos(self):
@@ -75,6 +89,13 @@ class Database():
         val=(user[0][0],amigo[0][0])
         self.cursor.execute(queries['add_amigo'],val)
         self.conexion.commit()
+
+    def eliminar_amigo(self, usuario, EMAIL):
+        user=self.consultar_id(usuario.get_email())
+        amigo=self.consultar_id(EMAIL)
+        val=(user[0][0],amigo[0][0])
+        self.cursor.execute(queries['del_amigo'],val)
+        self.conexion.commit()
     
     def ver_amigos(self, ID):
         id=(ID)
@@ -88,13 +109,6 @@ class Database():
         amigos = self.cursor.fetchall()
         return amigos   
              
-    def eliminar_amigo(self, usuario, EMAIL):
-        user=self.consultar_id(usuario.get_email())
-        amigo=self.consultar_id(EMAIL)
-        val=(user[0][0],amigo[0][0])
-        self.cursor.execute(queries['del_amigo'],val)
-        self.conexion.commit()
-
     def login (self, EMAIL, CLAVE):
         val=(EMAIL, CLAVE)
         self.cursor.execute(queries['loguearse'], val)
