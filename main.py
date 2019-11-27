@@ -13,36 +13,51 @@ def menu_usuario(usuario):
     # print:("\nMenu:\n")
     
     opcion=input("\nMenu:\n=====\n 1. Ver todos los Post\n 2. Agregar un nuevo Post\n 3. Borrar Post (propio)\n 4. Ver Amigos (actuales)\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
-    os.system('cls')                    #Pedido de Anthony para poner
+    os.system('cls')  
+    #revisar (abajo está el código original)
     if opcion=="1":
         categorias=db.mostrar_categoria()
         for i in categorias:
-            # print(i)
-            print(f"{i[0]}. {i[1]}")    #Pedido de Anthony para poner
-        cat=input("Indique categoría: ")
-        # id=db.consultar_id(usuario.get_email())
-        # print(id[0][0])       #esto me trae el ID del usuario
+            print(f"{i[0]}. {i[1]}")  
+        cat=int(input("Indique categoría: "))
         posteos_cat=db.list_posteo_categoria(cat)
-        print(f"\nEstos son tus posts en la categoría {cat}:\n")
-        for i in posteos_cat:
-            print(i[0])
-            # print()
-        # post=input("Ingrese posteo: ")
-        # db.add_posteo(post, id[0][0], cat) 
-        input("\nPresione Enter para continuar...")
+        if cat==1 or cat==2 or cat==3 or cat==4 or cat==5:
+            print(f"\nEstos son los posts en la categoría {cat}:\n")
+            for i in posteos_cat:
+                print(i[0])
+            input("\nPresione Enter para continuar...")
+        else:
+            print("\nCategoria incorrecta. Las opciones son entre 1 y 5")
+            menu_usuario(usuario)
         menu_usuario(usuario)
+
+    # if opcion=="1":
+    #     categorias=db.mostrar_categoria()
+    #     for i in categorias:
+    #         print(f"{i[0]}. {i[1]}")  
+    #     cat=input("Indique categoría: ")
+    #     posteos_cat=db.list_posteo_categoria(cat)
+    #     print(f"\nEstos son los posts en la categoría {cat}:\n")
+    #     for i in posteos_cat:
+    #         print(i[0])
+    #     input("\nPresione Enter para continuar...")
+    #     menu_usuario(usuario)
 
     elif opcion=="2":
         categorias=db.mostrar_categoria()
         for i in categorias:
-            print(f"{i[0]}. {i[1]}")    #Pedido de Anthony para poner        
-        cat=input("\nIndique categoría: ")
-        id=db.consultar_id(usuario.get_email())
-        post=input("\nIngrese posteo: ")
-        db.add_posteo(post, id[0][0], cat)
-        print("\nPosteo agregado!")
-        input("\nPresione Enter para continuar...")
-        # os.system('cls')
+            print(f"{i[0]}. {i[1]}")       
+        cat=int(input("\nIndique categoría: "))
+        if cat>=1 and cat<=5:
+            id=db.consultar_id(usuario.get_email())
+            post=input("\nIngrese posteo: ")
+            db.add_posteo(post, id[0][0], cat)
+            print("\nPosteo agregado!")
+            input("\nPresione Enter para continuar...")
+            menu_usuario(usuario)
+        else:
+            print("\nCategoria incorrecta. Las opciones son entre 1 y 5")
+            menu_usuario(usuario)
         menu_usuario(usuario)
 
     elif opcion=="3":
@@ -160,7 +175,8 @@ def menu_login():
             menu_login()
 
     else:
-        print("no existe valor")       
+        print("no existe ese valor")
+        menu_login()      
    
 if __name__ == "__main__":
     menu_login()
