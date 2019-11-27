@@ -12,7 +12,7 @@ def menu_usuario(usuario):
     # os.system('cls')
     # print:("\nMenu:\n")
     
-    opcion=input("\nMenu:\n=====\n 1. Ver todos los Post\n 2. Agregar un nuevo Post\n 3. Borrar Post\n 4. Ver Amigos\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
+    opcion=input("\nMenu:\n=====\n 1. Ver todos los Post\n 2. Agregar un nuevo Post\n 3. Borrar Post (propio)\n 4. Ver Amigos (actuales)\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
     os.system('cls')                    #Pedido de Anthony para poner
     if opcion=="1":
         categorias=db.mostrar_categoria()
@@ -23,7 +23,7 @@ def menu_usuario(usuario):
         # id=db.consultar_id(usuario.get_email())
         # print(id[0][0])       #esto me trae el ID del usuario
         posteos_cat=db.list_posteo_categoria(cat)
-        print(f"Estos son tus posts en la categoría {cat}:\n")
+        print(f"\nEstos son tus posts en la categoría {cat}:\n")
         for i in posteos_cat:
             print(i[0])
             # print()
@@ -36,11 +36,11 @@ def menu_usuario(usuario):
         categorias=db.mostrar_categoria()
         for i in categorias:
             print(f"{i[0]}. {i[1]}")    #Pedido de Anthony para poner        
-        cat=input("Indique categoría: ")
+        cat=input("\nIndique categoría: ")
         id=db.consultar_id(usuario.get_email())
-        post=input("Ingrese posteo: ")
+        post=input("\nIngrese posteo: ")
         db.add_posteo(post, id[0][0], cat)
-        print("Posteo agregado!")
+        print("\nPosteo agregado!")
         input("\nPresione Enter para continuar...")
         # os.system('cls')
         menu_usuario(usuario)
@@ -49,15 +49,16 @@ def menu_usuario(usuario):
         categorias=db.mostrar_categoria()
         for i in categorias:
             print(f"{i[0]}. {i[1]}") 
-        cat=input("Indique categoría: ")
+        cat=input("\nIndique de que categoría:")
         id=db.consultar_id(usuario.get_email())
         posteos=db.list_posteos_propios(cat, id[0][0])
+        print(f"\nEstos son ID y tus Posts en la categoría: {cat}")
         for i in posteos:
             print(f"{i[0]}. {i[1]}")
         #hasta acá viene de DBA, trae categoria y idusuario
-        borrar_post=input("\nID post a borrar: ")
+        borrar_post=input("\nIndique el ID de tu post a borrar: ")
         db.del_posteo(borrar_post, id[0][0])
-        print("Post Eliminado")
+        print(f"\nPost con ID número {borrar_post} fué eliminado")
         input("\nPresione Enter para continuar...")
         menu_usuario(usuario)
 
@@ -105,14 +106,17 @@ def menu_usuario(usuario):
 
 def menu_login():
     os.system('cls')
-    print("Elije Opcion Deseada:")
-    print("=====================\n")
-    valor=input("1.Loguearse\n2.Registrarse\n")
+    print("Red Social Punk:")
+    print("===============\n")
+    print(" 1. Loguearse\n 2. Registrarse\n\n")
+    valor=input("Ingrese una opción: ")
     db=Database()
     if valor=="1":
-        print("Ingrese su usuario (email) para loguearse:")
-        u=input("Usuario: ")
-        c=input("Clave: ")
+        os.system('cls')
+        print("Ud está intentando loguearse, a la red Social Punk!\n")
+        # print("Ingrese email con el que se registró:")
+        u=input("Ingrese su email: ")
+        c=input("Ingrese su Clave: ")
         usuarioglobal=db.login(u, c)
         # os.system('cls')
         if usuarioglobal:
@@ -121,10 +125,13 @@ def menu_login():
             # input("Presiona Enter para continuar...")
             menu_usuario(usuario)
         else:
-            print("El usuario no existe, ingrese un usuario válido")
-            #pendiente un contador de máximo 3 intentos
+            print("El usuario no existe, ingrese un email y clave válido")
             input("\nPresione Enter para continuar...")
             menu_login()
+                        # for i in range(3):
+            #     print("no existe, te quedan 2 intentos")
+            # menu_login
+            #pendiente un contador de máximo 3 intentos
                     
     elif valor=="2":
         print("\nIngrese los siguientes datos:")
