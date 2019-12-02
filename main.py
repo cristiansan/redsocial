@@ -2,6 +2,8 @@
 
 from dba import Database, Usuario
 import os
+import getpass
+import stdiomask
 
 usuarioglobal=None
 db=Database()
@@ -9,10 +11,10 @@ os.system('cls')
 
 def menu_usuario(usuario):
     # print(usuario.get_email())#esto es una prueba para mostrar email
-    # os.system('cls')
+    os.system('cls')
     # print:("\nMenu:\n")
     
-    opcion=input("\nMenu:\n=====\n 1. Ver todos los Post\n 2. Agregar un nuevo Post\n 3. Borrar Post (propio)\n 4. Ver Amigos (actuales)\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
+    opcion=input("Elige una de estas opciones:\n\nMenu:\n=====\n 1. Ver todos los Post\n 2. Agregar un nuevo Post\n 3. Borrar Post (propio)\n 4. Ver Amigos (actuales)\n 5. Agregar Amigo\n 6. Eliminar Amigo\n 7. Cerrar Sesión\n ")
     os.system('cls')  
     #revisar (abajo está el código original)
     if opcion=="1":
@@ -21,27 +23,16 @@ def menu_usuario(usuario):
             print(f"{i[0]}. {i[1]}")  
         cat=int(input("Indique categoría: "))
         posteos_cat=db.list_posteo_categoria(cat)
-        if cat==1 or cat==2 or cat==3 or cat==4 or cat==5:
+        if cat>=1 and cat<=5:
             print(f"\nEstos son los posts en la categoría {cat}:\n")
             for i in posteos_cat:
                 print(i[0])
             input("\nPresione Enter para continuar...")
         else:
             print("\nCategoria incorrecta. Las opciones son entre 1 y 5")
+            input("\nPresione Enter para continuar...")
             menu_usuario(usuario)
         menu_usuario(usuario)
-
-    # if opcion=="1":
-    #     categorias=db.mostrar_categoria()
-    #     for i in categorias:
-    #         print(f"{i[0]}. {i[1]}")  
-    #     cat=input("Indique categoría: ")
-    #     posteos_cat=db.list_posteo_categoria(cat)
-    #     print(f"\nEstos son los posts en la categoría {cat}:\n")
-    #     for i in posteos_cat:
-    #         print(i[0])
-    #     input("\nPresione Enter para continuar...")
-    #     menu_usuario(usuario)
 
     elif opcion=="2":
         categorias=db.mostrar_categoria()
@@ -57,6 +48,7 @@ def menu_usuario(usuario):
             menu_usuario(usuario)
         else:
             print("\nCategoria incorrecta. Las opciones son entre 1 y 5")
+            input("\nPresione Enter para continuar...")
             menu_usuario(usuario)
         menu_usuario(usuario)
 
@@ -98,16 +90,7 @@ def menu_usuario(usuario):
             db.agregar_amigo(usuario, amigo)
             print("Amigo agregado!! :)")
         menu_usuario(usuario)
-      
-    # elif opcion=="5":
-    #     amigo=input("Indica el email de tu amigo: ")
-    #     if db.validar_amigo(amigo) == []:
-    #     	print("Usuario no existe")
-    #     else:
-    #         db.agregar_amigo(usuario, amigo)
-    #         print("Amigo agregado!! :)")
-    #     menu_usuario(usuario)
-    
+        
     elif opcion=="6":
         amigo=input("Indica el email de tu amigo: ")
         if db.validar_amigo(amigo) == []:
@@ -116,8 +99,23 @@ def menu_usuario(usuario):
             db.eliminar_amigo(usuario, amigo)
             print("ex-Amigo eliminado!! :(")
         menu_usuario(usuario)
+    
+    elif opcion=="7":
+        salir=input("\nEstas seguro queres salir? Y/N: ")
+        if salir !="y":
+            print("Buena elección")
+            menu_usuario(usuario)
+        else:
+            print("Gracias, vuelvas prontos :)")
+            input("\nPresione Enter para continuar...")
+            menu_login()
+            
+
     else:
-        menu_login()
+        print("no existe esa opción")
+        input("\nPresione Enter para continuar...")
+        menu_usuario(usuario)
+        # menu_login()
 
 def menu_login():
     os.system('cls')
@@ -131,13 +129,23 @@ def menu_login():
         print("Ud está intentando loguearse, a la red Social Punk!\n")
         # print("Ingrese email con el que se registró:")
         u=input("Ingrese su email: ")
-        c=input("Ingrese su Clave: ")
-        usuarioglobal=db.login(u, c)
+        if "@" in u: 
+            c=stdiomask.getpass("Ingrese su clave: ", mask="*")
+            # c=getpass.getpass("Ingrese su clave: ", stream="*")
+            # c=input("Ingrese su Clave: ")
+            usuarioglobal=db.login(u, c)
+        else:
+            print("email debe tener @")
+            input("\nPresione Enter para continuar...")
+            menu_login()
+        
         # os.system('cls')
         if usuarioglobal:
-            print(f"\nBienvenido {usuarioglobal[0][1]} {usuarioglobal[0][2]} a la red social Punk!!\n\n----------------------------\nElige una de estas opciones:\n")
+            print(f"\nBienvenido {usuarioglobal[0][1]} {usuarioglobal[0][2]} a la red social Punk!!\n\n----------------------------\n")
             usuario=Usuario(usuarioglobal[0][1], usuarioglobal[0][2], usuarioglobal[0][3], usuarioglobal[0][4], usuarioglobal[0][5], usuarioglobal[0][6], usuarioglobal[0][7], usuarioglobal[0][8])
-            # input("Presiona Enter para continuar...")
+            # print(f"{usuario}")
+            # print(usuarioglobal)
+            input("Presiona Enter para continuar...")
             menu_usuario(usuario)
         else:
             print("El usuario no existe, ingrese un email y clave válido")
@@ -152,16 +160,19 @@ def menu_login():
         print("\nIngrese los siguientes datos:")
         print("============================")
         e=input("E-mail: ")
-        if db.validar_email(e) ==[]:
+        
+        if db.validar_email(e) ==[] and "@" and "." in e:
             a=input("Nombre: ")
             b=input("Apellido: ")
-            d=input("Clave: ")
+            d=stdiomask.getpass("Ingrese su clave: ", mask="*")
+            # d=input("Clave: ")
             f=input("Ciudad (es un numero): ")
             g=input("Edad: ")
             h=input("Sexo: (M-F) ")
             i=input("Fecha Nacimiento AAAA-MM-DD: ")
-            #validar hacindo funcion validar mail y mandamos e
+            #validar haciendo funcion validar mail y mandamos e
             usuario=Usuario(a,b,d,e,f,g,h,i)
+            
             # if (aca deberiamos hacer la validacion)
             db.crear_usuario(usuario)
             print("Usuario registrado on éxito\ahora vuelve a loguearte por favor\n")
@@ -169,10 +180,14 @@ def menu_login():
             #validar si el usuario ya existe (faltante)
             menu_login()
         else:
-            print("El usuario ya existe")
-            #pendiente un contador de máximo 3 intentos
-            input("\nPresione Enter para continuar...")
+            if "@." not in e:
+                print("Ese no es un email válido")
+                input("\nPresione Enter para continuar...")
+            else:
+                print("El usuario ya existe")
+            # input("\nPresione Enter para continuar...")
             menu_login()
+            #pendiente un contador de máximo 3 intentos
 
     else:
         print("no existe ese valor")

@@ -79,9 +79,10 @@ class Database():
 
     def list_posteos(self):
         self.cursor.execute(queries['list_posteos'])
-        reporte = self.cursor.fetchall()
-        for i in reporte:
-            print(i[1])
+        self.conexion.commit()
+        # reporte = self.cursor.fetchall()
+        # for i in reporte:
+        #     print(i[1])
 
     def agregar_amigo(self, usuario, EMAIL):
         user=self.consultar_id(usuario.get_email())
